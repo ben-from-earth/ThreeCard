@@ -6,14 +6,19 @@ class Card{
 
 // Create a deck of cards, maybe a deck function or something like that
 
-//function deal(players){ shuffle the deck, initialize the game state 
+//function deal(playerCount){ shuffle the deck, initialize the game state 
     //randomize deck
     //deal three cards face down to each player
     //deal 6 cards face up to each player
     //place one card from the top of the deck face up in the middle
 // } 
 
-//function play(){
+//function discard(pile){
+    //Move all cards in played card pile to the discard pile 
+//}
+
+//function play(playerCount){
+    //run deal(playerCount)
     //choose three cards to place on top of three face down cards
     //In order place a card from your deck that is higher than the card on the table
     //Two is acceptable at anytime and reset the deck
