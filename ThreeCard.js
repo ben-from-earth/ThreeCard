@@ -26,38 +26,72 @@
 
 //
 
+/* Program constants */
+
+const deckX = 550 + 152 / 2;
+const deckY = 500;
+
+//training deck ID:
+const testDeck = "jxtkjbblzhou";
+
+bg_color = "#006400";
+
+/* ----------------- */
+
 function setup() {
-  const width = 850;
-  const height = 750;
+  const width = 1000;
+  const height = 1000;
   createCanvas(width, height);
-  background("green");
+  background(bg_color);
   angleMode(DEGREES);
 
-  let deckId;
-  const backCard = "https://deckofcardsapi.com/static/img/back.png";
-  placeCardonTable(backCard, [width - width / 4, height / 2], 0);
+  const startButton = createButton("Play Three Card!");
+  startButton.id("startButton");
+  startButton.position(
+    width / 2 - startButton.width / 2,
+    height / 2 - startButton.height / 2
+  );
 
-  shuffleDeck(1)
-    .then((results) => {
-      if (results) {
-        deckId = results.deck_id;
-        let button = createButton("Gimme a Card!");
-        // let cardsLeft = results.remaining;
-        button.position(width / 2 - button.width / 2, 25);
+  startButton.mousePressed(() => {
+    initialize();
+    startButton.remove();
+  });
 
-        //For later on
-        // textSize(32);
-        // textAlign(CENTER);
-        // text(`Cards Left: ${cardsLeft}`, width - width / 4, height / 2 + 200);
+  //let results = shuffleDeck(1);
+  // deckd = results.deck_id;
 
-        button.mousePressed(() => drawCards(deckId, 1));
-      }
-    })
-    .catch((err) => {
-      console.error("Error fetching deck:", err);
-    });
+  // let cardsLeft = results.remaining;
+
+  //For later on
+  // textSize(32);
+  // textAlign(CENTER);
+  // text(`Cards Left: ${cardsLeft}`, width - width / 4, height / 2 + 200);
 
   //drawNewCard(1);
+}
+
+function initialize() {
+  const backCard = "https://deckofcardsapi.com/static/img/back.png";
+
+  const deck_Container = createDiv();
+  deck_Container.id("deck_Container");
+  deck_Container.class("customDeckContainer");
+
+  //placeCardonTable(backCard, [deckX, deckY], 0);
+
+  const dealCardButton = createButton("Gimme a Card!");
+  dealCardButton.id("dealCardButton");
+  dealCardButton.parent(deck_Container);
+  dealCardButton.mousePressed(() => drawCards(testDeck, 1));
+
+  const deckImg = createImg(backCard, "card back");
+  deckImg.parent(deck_Container);
+  deckImg.class("deckImg");
+
+  const reshuffleButton = createButton("Reshuffle Deck!");
+  reshuffleButton.id("reshuffleButton");
+  reshuffleButton.parent(deck_Container);
+  reshuffleButton.mousePressed(() => reshuffle(testDeck));
 }
 
 // Helper Functions //
@@ -76,10 +110,11 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function placeCardonTable(img_url, positionArr, rotation) {
+function placeCardonTable(img_url, [x, y], rotation) {
   loadImage(img_url, (img) => {
+    img.resize(100, 150);
     push();
-    translate(positionArr[0], positionArr[1]);
+    translate(x, y);
     rotate(0 + rotation);
     imageMode(CENTER);
     image(img, 0, 0);
@@ -89,56 +124,57 @@ function placeCardonTable(img_url, positionArr, rotation) {
 
 //-----------------//
 
-function shuffleDeck(numDecks) {
+async function shuffleDeck(numDecks) {
   let url = `https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=${numDecks}`;
-  return fetch(url)
-    .then((response) => {
-      if (!response.ok) throw new Error("failed to fetch deck.");
-      return response.json();
-    })
-    .catch((err) => console.error("Failed to shuffle:", err));
+  const response = await fetch(url);
+  return response.json();
 }
 
-function drawCards(deck_id, numCards) {
+async function drawCards(deck_id, numCards) {
   let url = `https://deckofcardsapi.com/api/deck/${deck_id}/draw/?count=${numCards}`;
 
-  fetch(url)
-    .then((response) => response.json())
-    .then((json) => {
-      let cardsList = json.cards;
-      for (let i = 0; i < numCards; i++) {
-        let card = `${title(cardsList[i].value)} of ${title(
-          cardsList[i].suit
-        )}`;
-        let rotationModifier = getRandomInt(-15, 15);
-        let xposModifier = getRandomInt(-10, 10);
-        let yposModifier = getRandomInt(-10, 10);
-        placeCardonTable(
-          cardsList[i].image,
-          [width / 4 + xposModifier, height / 2 + yposModifier],
-          rotationModifier
-        );
-        remaining = json.remaining;
-      }
-    })
-    .catch((err) => console.error("Failed to draw a card:", err));
+  let response = await fetch(url);
+  const cardfromDeck = await response.json();
+  const cardsList = cardfromDeck.cards;
+  for (let i = 0; i < numCards; i++) {
+    //let card = `${title(cardsList[i].value)} of ${title(cardsList[i].suit)}`;
+    let rotationModifier = getRandomInt(-15, 15);
+    let xposModifier = getRandomInt(-10, 10);
+    let yposModifier = getRandomInt(-10, 10);
+    placeCardonTable(
+      cardsList[i].image,
+      [width / 2 - 50 + xposModifier, height / 2 + yposModifier],
+      rotationModifier
+    );
+    remaining = cardfromDeck.remaining;
+    if (remaining === 0) {
+      reshuffle(deck_id);
+    }
+    printMsg(`Cards remaining: ${remaining}`, [deckX + 115, deckY]);
+  }
 }
 
-function drawNewCard(numCards) {
-  let url = `https://deckofcardsapi.com/api/deck/new/draw/?count=${numCards}`;
-
-  fetch(url)
-    .then((response) => response.json())
-    .then((json) => {
-      let cardsList = json.cards;
-      for (let i = 0; i < numCards; i++) {
-        let card = `${title(cardsList[i].value)} of ${title(
-          cardsList[i].suit
-        )}`;
-        createP(card);
-      }
-    })
-    .catch((err) => console.error("Failed to draw a card:", err));
+async function reshuffle(deck_id) {
+  let url = `https://deckofcardsapi.com/api/deck/${deck_id}/shuffle/`;
+  printMsg(`Deck Shuffled!`, [deckX - 10, deckY + 130]);
+  fill(bg_color);
+  noStroke();
+  rectMode(CENTER);
+  rect(width / 2 - 50, height / 2, 175, 250); // wipe the area
+  return await fetch(url);
 }
 
-setup();
+function printMsg(msg, [x, y]) {
+  clearMessageArea(msg.length, x, y);
+  fill(255);
+  textSize(14);
+  textAlign(CENTER, CENTER);
+  text(msg, x, y);
+}
+
+function clearMessageArea(msgWidth, x, y) {
+  fill(bg_color);
+  noStroke();
+  rectMode(CENTER);
+  rect(x, y, Math.ceil(msgWidth * 8), 30); // wipe the area
+}

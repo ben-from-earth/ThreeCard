@@ -1,0 +1,61 @@
+:root{
+    --bg-color: #006400
+}
+
+
+#startButton {
+  background-color: #ffffff; /* Green */
+  color:var(--bg-color);              /* Text color */
+  padding: 10px 20px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#dealCardButton {
+  background-color: #ffffff; /* Green */
+  color:var(--bg-color);              /* Text color */
+  padding: 5px 15px;
+  border: none;
+  border-radius: 30px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#reshuffleButton {
+  background-color: #ffffff; /* Green */
+  color:var(--bg-color);              /* Text color */
+  padding: 5px 15px;
+  border: none;
+  border-radius: 30px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.customDeckContainer {
+  position: absolute;       /* or relative/fixed depending on your needs */
+  display: flex;
+  flex-direction: column;   /* vertical layout */
+  align-items: center;      /* center horizontally inside the container */
+  gap: 10px;                /* spacing between elements */
+  top: 391px;  /* vertical position */
+  left: 550px; /* horizontal position */
+}
+
+.deckImg{
+    width: 100px;
+    height: 150px;
+}
+
+
+canvas{
+    border-radius: 50%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    overflow: hidden;
+}
