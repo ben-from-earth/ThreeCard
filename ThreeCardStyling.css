@@ -43,7 +43,7 @@
   align-items: center;      /* center horizontally inside the container */
   gap: 10px;                /* spacing between elements */
   top: 391px;  /* vertical position */
-  left: 550px; /* horizontal position */
+  left: 500px; /* horizontal position */
 }
 
 .deckImg{
