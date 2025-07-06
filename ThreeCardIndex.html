@@ -1,17 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Three Card</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
-    <link rel="stylesheet" href="ThreeCardStyling.css">
-</head>
+    <link rel="stylesheet" href="ThreeCardStyling.css" />
+  </head>
 
-<body>
+  <body>
+    <div id="gameContainer">
+      <div id="mainMenu">
+        <button id="startButton">Play Three Card!</button>
+        <input
+          type="text"
+          id="playerCountQuery"
+          placeholder="Enter number of players..."
+        />
+        <p id="playerCountError">
+          Player count must be an integer between 2 and 6
+        </p>
+      </div>
+      <div id="centerItemsHolder">
+        <div id="playedCards">
+          <img
+            src="https://deckofcardsapi.com/static/img/back.png"
+            width="100"
+            height="150"
+            class="fixed"
+          />
+        </div>
+        <div id="mainDeckContainer">
+          <button id="dealCardButton">Deal a Card</button>
+          <img
+            src="https://deckofcardsapi.com/static/img/back.png"
+            width="100"
+            height="150"
+          />
+          <button id="reshuffleButton">Reshuffle Deck</button>
+        </div>
+        <p id="cardsRemaining" class="flex-text"></p>
+      </div>
+    </div>
     <script src="ThreeCard.js"></script>
-    <div class="dot"></div>
-</body>
-
+  </body>
 </html>

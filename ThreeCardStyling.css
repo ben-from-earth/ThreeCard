@@ -1,11 +1,10 @@
-:root{
-    --bg-color: #006400
+:root {
+  --bg-color: #006400;
 }
-
 
 #startButton {
   background-color: #ffffff; /* Green */
-  color:var(--bg-color);              /* Text color */
+  color: var(--bg-color); /* Text color */
   padding: 10px 20px;
   border: none;
   border-radius: 30px;
@@ -16,7 +15,7 @@
 
 #dealCardButton {
   background-color: #ffffff; /* Green */
-  color:var(--bg-color);              /* Text color */
+  color: var(--bg-color); /* Text color */
   padding: 5px 15px;
   border: none;
   border-radius: 30px;
@@ -26,8 +25,8 @@
 }
 
 #reshuffleButton {
-  background-color: #ffffff; /* Green */
-  color:var(--bg-color);              /* Text color */
+  background-color: #ffffff;
+  color: var(--bg-color);
   padding: 5px 15px;
   border: none;
   border-radius: 30px;
@@ -35,27 +34,56 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
-.customDeckContainer {
-  position: absolute;       /* or relative/fixed depending on your needs */
+#centerItemsHolder {
+  position: absolute;
+  display: none;
+  align-items: center;
+  padding: 20px;
+  left: 58.25%;
+  transform: translate(-50%);
+}
+#cardsRemaining {
+  color: white;
+  visibility: visible;
+  min-width: 150px;
+}
+#mainDeckContainer {
   display: flex;
-  flex-direction: column;   /* vertical layout */
-  align-items: center;      /* center horizontally inside the container */
-  gap: 10px;                /* spacing between elements */
-  top: 391px;  /* vertical position */
-  left: 500px; /* horizontal position */
+  margin-left: 25px;
+  margin-right: 0px;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 130px;
 }
 
-.deckImg{
-    width: 100px;
-    height: 150px;
+#gameContainer {
+  position: relative; /* or relative/fixed depending on your needs */
+  display: flex;
+  flex-direction: column; /* vertical layout */
+  justify-content: center; /* center horizontally inside the container */
+  align-items: center;
+  background-color: var(--bg-color);
+  border-radius: 50%;
+  overflow: hidden;
+  width: 1000px;
+  height: 1000px;
+  gap: 10px;
 }
 
+#mainMenu {
+  position: absolute; /* or relative/fixed depending on your needs */
+  display: flex;
+  flex-direction: column; /* vertical layout */
+  justify-content: center; /* center horizontally inside the container */
+  align-items: center;
+  gap: 10px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
-canvas{
-    border-radius: 50%;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    overflow: hidden;
+#playerCountError {
+  visibility: hidden;
+  color: white;
 }
